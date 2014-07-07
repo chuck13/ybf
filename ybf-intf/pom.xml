@@ -1,0 +1,98 @@
+<?xml version="1.0"?>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>ybf</groupId>
+		<artifactId>ybf</artifactId>
+		<version>1.0</version>
+	</parent>
+	<groupId>ybf-intf</groupId>
+	<artifactId>ybf-intf</artifactId>
+	<version>1.0</version>
+	<name>ybf-intf</name>
+	<url>http://maven.apache.org</url>
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
+	<dependencies>
+		<dependency>
+			<groupId>com.suning.framework</groupId>
+			<artifactId>snf-rsc</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>javax.validation</groupId>
+			<artifactId>validation-api</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.thoughtworks.xstream</groupId>
+			<artifactId>xstream</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>javax.persistence</groupId>
+			<artifactId>persistence-api</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-web</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.testng</groupId>
+			<artifactId>testng</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.suning.framework</groupId>
+			<artifactId>snf-lang</artifactId>
+			<exclusions>
+				<exclusion>
+					<groupId>com.google.code.gson</groupId>
+					<artifactId>gson</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.aspectj</groupId>
+					<artifactId>aspectjweaver</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>cglib</groupId>
+					<artifactId>cglib-nodep</artifactId>
+				</exclusion>
+				<exclusion>
+					<artifactId>commons-logging</artifactId>
+					<groupId>commons-logging</groupId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.springframework</groupId>
+					<artifactId>spring-aop</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.springframework</groupId>
+					<artifactId>spring-context</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-core</artifactId>
+			<scope>compile</scope>
+		</dependency>
+	</dependencies>
+	<!-- <build> <plugins> 下面是通过插件自动生成wsdl文件，className中配置自定义的ws服务接口类。需要时在放开注释 <plugin> <groupId>org.apache.cxf</groupId> 
+		<artifactId>cxf-java2ws-plugin</artifactId> <executions> <execution> <id>process-classes</id> <configuration> 
+		<className>com.suning.sample.user.UserService</className> <outputFile>${basedir}/target/generated-sources/UserService.wsdl</outputFile> 
+		</configuration> </execution> </executions> </plugin> </plugins> </build> -->
+
+
+
+</project>
