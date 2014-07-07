@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<sqlMap namespace="fw">
+    <sql id="query_ref_role">
+    	<![CDATA[
+    	    SELECT 
+    	    	* 
+    	    FROM 
+    	    	SMPL_ROLE WHERE CODE=:code
+    	]]>
+   </sql>
+</sqlMap>

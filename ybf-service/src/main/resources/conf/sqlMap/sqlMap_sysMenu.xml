@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<sqlMap namespace="sysMenu">
+	<sql id="count">
+    	<![CDATA[
+    	       SELECT
+                    COUNT(1) AS COUNT 
+               FROM 
+               		SYS_MENU AS A
+			   WHERE
+               1 = 1  
+               <#if code?exists && code!="">
+                         AND UPPER(A.MENU_CODE) LIKE UPPER('%'||:code||'%') 
+               </#if>
+               <#if type?exists && type!="">
+                       AND UPPER(A.TYPE) LIKE UPPER('%'||:type||'%') 
+               </#if>
+    	]]>
+	</sql>
+
+	<sql id="listByPage">
+	    <![CDATA[
+	     SELECT PAGE_ROW_.* FROM (SELECT ROWNUMBER() OVER() AS ROWID_,  ORGIN_TBL_.* FROM (
+			SELECT *
+			FROM SYS_MENU AS A
+			   WHERE
+               1 = 1  
+               <#if code?exists && code!="">
+                         AND UPPER(A.MENU_CODE) LIKE UPPER('%'||:code||'%') 
+               </#if>
+               <#if type?exists && type!="">
+                       AND UPPER(A.TYPE) LIKE UPPER('%'||:type||'%') 
+               </#if>
+			ORDER BY A.MENU_ID ${orderType}
+		 ) ORGIN_TBL_) PAGE_ROW_ WHERE PAGE_ROW_.ROWID_ >= (:startIndex + 1) AND PAGE_ROW_.ROWID_ <= (:startIndex + :maxCount)  
+	    ]]>
+	</sql>
+	<sql id="findByParentId">
+    	<![CDATA[  	
+			SELECT * FROM SYS_MENU  AS A WHERE A.PARENT_ID = :parentId ORDER BY MENU_ID DESC 
+		]]>
+	</sql>
+
+	<sql id="findParent">
+    	<![CDATA[  	
+			SELECT * FROM SYS_MENU  AS A WHERE A.IS_PARENT = 1 ORDER BY MENU_ID DESC 
+		]]>
+	</sql>
+
+	<sql id="findByName">
+    	<![CDATA[  	
+			SELECT * FROM SYS_MENU  AS A WHERE A.NAME = :name ORDER BY MENU_ID DESC 
+		]]>
+	</sql>
+
+	<sql id="findByCode">
+    	<![CDATA[  	
+			SELECT * FROM SYS_MENU  AS A WHERE A.MENU_CODE = :code ORDER BY MENU_ID DESC 
+		]]>
+	</sql>
+	<sql id="findChildByCode">
+    	<![CDATA[  	
+			SELECT * FROM SYS_MENU  AS A WHERE A.PARENT_ID =(SELECT MENU_ID FROM SYS_MENU WHERE  MENU_CODE =:code) ORDER BY MENU_ID DESC  
+		]]>
+	</sql>
+
+	<sql id="findAllMenu">
+    	<![CDATA[  	
+			SELECT * FROM SYS_MENU 
+		]]>
+	</sql>
+	<sql id="remove_menu">
+	    <![CDATA[
+	    	DELETE FROM SYS_MENU WHERE MENU_ID = :menuId
+	    ]]>
+	</sql>
+</sqlMap>

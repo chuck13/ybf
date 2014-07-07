@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<sqlMap namespace="oms">
+    <sql id="list_user">
+    	<![CDATA[
+    	    	SELECT 
+    	    		THIS_.CODE AS CODE, THIS_.NAME AS NAME, THIS_.MOBILE_NO AS MOBILENO, THIS_.JOIN_DATE AS JOINDATE 
+    	    	FROM 
+    	    		SMPL_USER THIS_
+    	]]>
+    </sql>
+    <sql id="list_user_role">
+    	<![CDATA[
+    	    	SELECT 
+    	    		ROLE.CODE AS CODE, ROLE.NAME AS NAME 
+    	    	FROM 
+    	    		SMPL_ROLE ROLE
+    	]]>
+    </sql>
+    <sql id="query_user">
+    	<![CDATA[
+    	    SELECT 
+    	    	* 
+    	    FROM 
+    	    	SMPL_USER 
+    	    WHERE 
+    	    	CODE=:code
+    	]]>
+    </sql>
+    <sql id="query_user_role">
+    	<![CDATA[
+    	    	SELECT 
+    	    		ROLE.CODE AS CODE, ROLE.NAME AS NAME 
+    	    	FROM 
+    	    		SMPL_ROLE ROLE, SMPL_USER_ROLE USER_ROLE 
+    	    	WHERE 
+    	    		ROLE.CODE = USER_ROLE.ROLE_NAME AND USER_ROLE.USER_CODE = :code
+    	]]>
+    </sql>
+    <sql id="query_role">
+    	<![CDATA[
+    	    SELECT 
+    	    	* 
+    	    FROM 
+    	    	SMPL_ROLE 
+    	    WHERE 
+    	    	CODE=:code
+    	]]>
+    </sql>
+    <sql id="update_user">
+    	<![CDATA[
+    	    UPDATE 
+    	    	SMPL_USER SET NAME=:name, MOBILE_NO=:mobileNo, JOIN_DATE=:joinDate 
+    	    WHERE 
+    	    	CODE=:code
+    	]]>
+    </sql>
+    <sql id="insert_user">
+    	<![CDATA[
+    	    INSERT INTO 
+    	    	SMPL_USER(CODE, NAME, GENDER, MANAGER, VERSION, TITLE, MOBILE_NO, JOIN_DATE) 
+    	    VALUES(:code, :name, :gender, :manager, :version, :title, :mobileNo, :joinDate)
+    	]]>
+    </sql>
+    <sql id="delete_user">
+    	<![CDATA[
+    	    DELETE FROM 
+    	    	SMPL_USER 
+    	    WHERE 
+    	    	CODE=:code
+    	]]>
+    </sql>
+    <sql id="page_count_user">
+    	<![CDATA[
+    	    SELECT 
+    	    	COUNT(1) AS CODE 
+    	    FROM 
+    	    	SMPL_USER 
+    	    WHERE 
+    	    	CODE < :code
+    	]]>
+    </sql>
+    <sql id="page_query_user" >
+    	<![CDATA[
+    	    SELECT 
+    	   		PAGE_ROW_.* 
+    	    FROM 
+    	    	(SELECT 
+    	    		ROWNUMBER() OVER() AS ROWID_,  ORGIN_TBL_.* 
+    	    	 FROM (SELECT 
+    	    	 			THIS_.CODE AS CODE, THIS_.NAME AS NAME, THIS_.MOBILE_NO AS MOBILENO, THIS_.JOIN_DATE AS JOINDATE 
+    	    	 	   FROM 
+    	    	 	   		SMPL_USER THIS_ 
+    	    	 	   WHERE 
+    	    	 	   		THIS_.CODE < :code) ORGIN_TBL_) PAGE_ROW_ 
+    	    WHERE 
+    	    	PAGE_ROW_.ROWID_ >= (:startIndex + 1) AND PAGE_ROW_.ROWID_ <= (:startIndex + :maxCount) 
+    	]]>
+    </sql>
+</sqlMap>

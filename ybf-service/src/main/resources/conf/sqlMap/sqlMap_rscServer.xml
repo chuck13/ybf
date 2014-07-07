@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<sqlMap namespace="rscServer">
+
+	<sql id="query_esbMsg_num">
+		<![CDATA[
+		  <#assign firstAnd=true /><#macro printAnd><#if firstAnd> <#assign firstAnd=false/><#else> AND </#if></#macro>
+    	  SELECT 
+    	  		COUNT(MSG_ID) as count 
+    	  FROM 
+    	  		RSC_ESB_MSG 
+    	  <#if beginDate??||endDate??||status??||msgType??> WHERE </#if>
+    	  <#if msgType?? ><@printAnd/> MSG_TYPE like '%'||:msgType||'%'</#if> 
+		  <#if status?? >  <@printAnd/> STATUS =:status  </#if>
+    	  <#if beginDate?? >  <@printAnd/> INSERT_DATE > :beginDate </#if> 
+    	  <#if endDate?? >  <@printAnd/> INSERT_DATE < :endDate </#if> 
+    	]]>
+	</sql>
+	
+	<sql id="query_esbMsg_count_num">
+		<![CDATA[
+		  <#assign firstAnd=true /><#macro printAnd><#if firstAnd> <#assign firstAnd=false/><#else> AND </#if></#macro>
+    	  select count(msg_type) count
+    	  from
+	    	  (select msg_type, sum(b) unprocessedCount, sum(c) succCount, sum(a) failCount
+		      from(
+					select  msg_type, status, 
+					case when status=-1 then  count(msg_type) else 0  end a, 
+					case when status=0  then  count(msg_type) else 0 end b,
+					case when status=1  then  count(msg_type)  else 0 end c
+					from rsc_esb_msg
+					where MARK_FOR_DELETE=0
+	    	  		<#if beginDate?? >  <@printAnd/> and INSERT_DATE > :beginDate </#if> 
+	    	  		<#if endDate?? >  <@printAnd/> INSERT_DATE < :endDate </#if>
+				  group by msg_type, status 
+					)
+			   group by msg_type)
+    	]]>
+	</sql>
+	
+	<sql id="query_esbMsg_list">
+		<![CDATA[
+			<#assign firstAnd=true /><#macro printAnd><#if firstAnd> <#assign firstAnd=false/><#else> AND </#if></#macro>
+			SELECT 
+				page_row_.* 
+			FROM 
+				(
+					SELECT 
+						ROWNUMBER() OVER() as rowid_,  orgin_tbl_.* 
+					FROM (
+    	  					SELECT 
+    	  						*
+    	  					FROM 
+    	  						RSC_ESB_MSG 
+    	  					<#if beginDate??||endDate??||status??||msgType??> WHERE </#if>
+    	  					<#if msgType?? ><@printAnd/> MSG_TYPE like '%'||:msgType||'%'</#if> 
+		  					<#if status?? >  <@printAnd/> STATUS =:status  </#if>
+    	  					<#if beginDate?? >  <@printAnd/> INSERT_DATE > :beginDate </#if> 
+    	  					<#if endDate?? >  <@printAnd/> INSERT_DATE < :endDate </#if> 
+    	  			ORDER BY MSG_ID DESC) orgin_tbl_
+    	  		) page_row_ 
+    	   WHERE 
+    	   		page_row_.rowid_ >= (:startIndex + 1) AND page_row_.rowid_ <= (:startIndex + :maxCount) 
+    	]]>
+	</sql>
+	
+	<sql id="query_msgCount_list">
+		<![CDATA[
+			<#assign firstAnd=true /><#macro printAnd><#if firstAnd> <#assign firstAnd=false/><#else> AND </#if></#macro>
+			SELECT 
+				page_row_.*
+			FROM 
+				(
+					SELECT 
+						ROWNUMBER() OVER() as rowid_,  orgin_tbl_.* 
+					FROM (
+    	  					select msg_type, sum(b) unprocessedCount, sum(c) succCount, sum(a) failCount
+							from(
+								select  msg_type, status, 
+								case when status=-1 then  count(msg_type) else 0  end a, 
+								case when status=0  then  count(msg_type) else 0 end b,
+								case when status=1  then  count(msg_type)  else 0 end c
+								from rsc_esb_msg
+								where MARK_FOR_DELETE=0
+	    	  					<#if beginDate?? >  <@printAnd/> and INSERT_DATE > :beginDate </#if> 
+	    	  					<#if endDate?? >  <@printAnd/> INSERT_DATE < :endDate </#if>
+								group by msg_type, status 
+							)
+							group by msg_type) orgin_tbl_
+    	  		) page_row_ 
+    	   WHERE 
+    	   		page_row_.rowid_ >= (:startIndex + 1) AND page_row_.rowid_ <= (:startIndex + :maxCount) 
+    	]]>
+	</sql>
+	
+	<sql id="query_msgTypes">
+		<![CDATA[
+			SELECT 
+				DISTINCT MSG_TYPE
+			FROM
+		    	RSC_ESB_MSG
+		]]>
+	</sql>
+	
+	<sql id="batch_delete_by_id">
+		<![CDATA[
+			DELETE FROM RSC_ESB_MSG WHERE MSG_ID=:msgId
+		]]>
+	</sql>
+	
+	<sql id="query_by_id">
+		<![CDATA[
+			SELECT * FROM RSC_ESB_MSG WHERE MSG_ID=:id
+		]]>
+	</sql>
+	
+</sqlMap>
