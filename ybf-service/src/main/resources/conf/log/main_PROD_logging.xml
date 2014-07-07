@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<configuration>
+	<!-- 日志配置，snf-lang  snf-lang2任选一种的配置即可，具体请参照相应的用户手册！控制台appender配置无差异  -->
+	<!-- snf-lang.jar的日志配置   start -->
+	<!-- 文件输出日志 (文件大小策略进行文件输出，超过指定大小对文件备份) -->
+	<appender name="FILE"
+		class="com.suning.framework.log.appender.rolling.SnfRollingFileAppender">
+		<File>/opt/log/simple-service.log</File>
+		<!-- 日志文件rolling策略 -->
+		<rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
+			<FileNamePattern>/opt/log/simple-service.%i.log.zip</FileNamePattern>
+			<MinIndex>1</MinIndex>
+			<MaxIndex>12</MaxIndex>
+		</rollingPolicy>
+		<!-- 日志文件rolling触发策略 -->
+		<triggeringPolicy
+			class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+			<MaxFileSize>100MB</MaxFileSize>
+		</triggeringPolicy>
+		<!-- 日志内容format策略,此处为snf订制,完成对日志信息的json化操作,若无此策略,SnfRollingFileAppender表现 
+			与 logback自带RollingFileAppender行为一致 -->
+		<!-- <formattingPolicy class="com.suning.framework.log.policy.JsonFormattingPolicy" /> -->
+		<!-- 日志输出格式 -->
+		<layout class="ch.qos.logback.classic.PatternLayout">
+			<Pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} -%msg%n</Pattern>
+		</layout>
+	</appender>
+	<!-- snf-lang.jar 的日志配置   end -->
+	
+	<!-- snf-lang2.jar 的日志配置   start -->
+	<!-- 文件输出日志 (文件大小策略进行文件输出，超过指定大小对文件备份) -->
+<!-- 	<appender name="FILE" -->
+<!-- 		class="ch.qos.logback.core.rolling.RollingFileAppender"> -->
+<!-- 		<File>xxxx.log</File> -->
+		<!-- 日志文件rolling策略 -->
+<!-- 		<rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy"> -->
+<!-- 			<FileNamePattern>xxxx.log.%i.bak</FileNamePattern> -->
+<!-- 			<MinIndex>1</MinIndex> -->
+<!-- 			<MaxIndex>12</MaxIndex> -->
+<!-- 		</rollingPolicy> -->
+		<!-- 日志文件rolling触发策略 -->
+<!-- 		<triggeringPolicy -->
+<!-- 			class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy"> -->
+<!-- 			<MaxFileSize>100MB</MaxFileSize> -->
+<!-- 		</triggeringPolicy> -->
+		<!-- 日志内容format策略,此处为snf订制,完成对日志信息的json化操作,若无此策略,SnfRollingFileAppender表现 
+			与 logback自带RollingFileAppender行为一致 -->
+		<!-- <formattingPolicy -->
+		<!-- class="com.suning.framework.log.policy.JsonFormattingPolicy" /> -->
+		<!-- 日志输出格式 -->
+<!-- 		<layout class="ch.qos.logback.classic.PatternLayout"> -->
+<!-- 			<Pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] -->
+<!-- 				%-5level%logger{36} -->
+<!-- 				-%msg%n</Pattern> -->
+<!-- 		</layout> -->
+<!-- 	</appender> -->
+	<!-- snf-lang2.jar 的日志配置   end -->
+	
+	
+	<logger name="org.simple.service.impl" additivity="false">
+		<level value="info" />
+		<appender-ref ref="FILE" />
+	</logger>
+	
+	<!-- 下面的异常监测的logger名称为指定的，不能更改！ -->
+	<!-- snf-lang  异常监测日志配置   start -->
+<!-- 	<logger name="exception-logger" additivity="false"> -->
+<!-- 		<level value="error" /> -->
+<!-- 		<appender-ref ref="FILE" /> -->
+<!-- 	</logger> -->
+	<!-- snf-lang  异常监测日志配置   end -->
+	
+	<!-- snf-lang2    异常监测日志配置   start -->
+<!-- 	<logger name="trace-logger" level="WARN" additivity="false"> -->
+<!-- 		<appender-ref ref="FILE" /> -->
+<!-- 	</logger> -->
+	<!-- snf-lang2    异常监测日志配置   end -->
+	
+	<root level="INFO">
+		<appender-ref ref="FILE" />
+	</root>
+</configuration>

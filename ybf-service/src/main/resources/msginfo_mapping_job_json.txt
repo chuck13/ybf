@@ -1,0 +1,4 @@
+[
+	{msgType:"abc_2", msgName:"rsc测试", msgDesc:"仅仅是测试数据", jobClass:"org.simple.service.impl.rscserver.MyJob"},
+	{msgType:"abc_1", msgName:"rsc测试2", msgDesc:"仅仅是测试数据2", jobClass:"org.simple.service.impl.rscserver.MyJob1"}
+]
