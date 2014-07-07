@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>ybf</groupId>
+	<artifactId>ybf</artifactId>
+	<version>1.0</version>
+	<packaging>pom</packaging>
+	<!--  
+	<parent>
+		<groupId>com.suning.framework</groupId>
+		<artifactId>snf-parent</artifactId>
+		<version>2.2.54</version>
+	</parent> -->
+
+	<!-- profiles: 目前主要是对web项目中的静态资源进行过滤，如果你的静态资源中有变量需要，请删除这一段 <profiles> <profile> <id>dev</id> <activation> 
+		<activeByDefault>true</activeByDefault> </activation> <build> <filters> <filter>../${project.parent.artifactId}/vars/vars.dev.properties</filter> 
+		</filters> </build> </profile> <profile> <id>sit</id> <build> <filters> <filter>../${project.parent.artifactId}/vars/vars.sit.properties</filter> 
+		</filters> </build> </profile> <profile> <id>pre</id> <build> <filters> <filter>../${project.parent.artifactId}/vars/vars.pre.properties</filter> 
+		</filters> </build> </profile> <profile> <id>prod</id> <build> <filters> <filter>../${project.parent.artifactId}/vars/vars.prod.properties</filter> 
+		</filters> </build> </profile> </profiles> -->
+	<issueManagement>
+		<system>JIRA</system>
+		<url>http://jira.cnsuning.com/browse/SNF</url>
+	</issueManagement>
+	<inceptionYear>2012</inceptionYear>
+
+	<build>
+		<pluginManagement>
+			<plugins>
+				<!-- war plugin config: 对静态资源进行过滤，替换变量。 如果你不需要，请移除这一段 -->
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-war-plugin</artifactId>
+					<configuration>
+						<warName>${project.artifactId}</warName>
+						<webResources>
+							<resource>
+								<directory>src/main/webapp</directory>
+								<filtering>true</filtering>
+								<includes>
+									<include>**/*.html</include>
+									<include>**/*.js</include>
+									<include>**/*.css</include>
+									<include>**/*.xml</include>
+								</includes>
+							</resource>
+						</webResources>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+		<resources>
+			<resource>
+				<directory>${basedir}/src/main/resources</directory>
+				<filtering>true</filtering>
+			</resource>
+		</resources>
+		<testResources>
+			<testResource>
+				<directory>${basedir}/src/test/resources</directory>
+			</testResource>
+		</testResources>
+	</build>
+	<!-- 注意：必须改为你项目正确的svn路径 -->
+	<scm>
+		<url>http://svncode.cnsuning.com/svn/TechPlatform_code/SuNingFramework/simple/trunk/${project.name}</url>
+		<connection>scm:svn:http://svncode.cnsuning.com/svn/TechPlatform_code/SuNingFramework/simple/trunk/${project.name}</connection>
+	</scm>
+
+	<modules>
+		<module>ybf-web</module>
+		<module>ybf-intf</module>
+		<module>ybf-service</module>
+	</modules>
+</project>
